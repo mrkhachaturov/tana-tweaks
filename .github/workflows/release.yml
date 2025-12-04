@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: Release notes (optional)
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: "${{ secrets.BOT_APP_ID }}"
+          private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Get version from manifest.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./manifest.json').version")
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Detected version: ${VERSION}"
+
+      - name: Create release package
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          PACKAGE_NAME="tana-tweaks-v${VERSION}.zip"
+          
+          echo "Creating release package: ${PACKAGE_NAME}"
+          
+          zip -r "${PACKAGE_NAME}" . \
+            -x "*.git*" \
+            -x "dev/*" \
+            -x "*.DS_Store" \
+            -x "*.zip" \
+            -x ".cursor/*" \
+            -x "*.plan.md" \
+            -x "Makefile" \
+            -x "RELEASE.md"
+          
+          echo "PACKAGE_NAME=${PACKAGE_NAME}" >> $GITHUB_ENV
+          echo "✓ Created ${PACKAGE_NAME}"
+          ls -la "${PACKAGE_NAME}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Tana Tweaks v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Tana Tweaks v${{ steps.version.outputs.VERSION }}
+            
+            ${{ inputs.notes || 'No release notes provided.' }}
+            
+            ### Installation
+            1. Download the ZIP file below
+            2. Extract it to a folder
+            3. Go to `chrome://extensions`
+            4. Enable Developer mode
+            5. Click "Load unpacked" and select the folder
+            
+            See [INSTALLATION.md](https://github.com/${{ github.repository }}/blob/main/INSTALLATION.md) for detailed instructions.
+          files: ${{ env.PACKAGE_NAME }}
+          draft: false
+          prerelease: false

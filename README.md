@@ -2,6 +2,18 @@
 
 Chrome extension that enhances [Tana.inc](https://tana.inc) and [Tana.pub](https://tana.pub) with useful tweaks — video embeds, UI improvements, and more.
 
+## Why This Extension?
+
+Tana has native support for YouTube and Vimeo embeds, but what about everything else? Kinescope, Loom, VK Video, Wistia, or your company's video platform won't embed — they just stay as links.
+
+**Tana Tweaks extends Tana's video support to ANY platform.** Paste a link from Loom, Kinescope, or any other video service, and it automatically transforms into an embedded player — just like YouTube and Vimeo already do.
+
+Perfect for:
+- 📚 Learning notes with tutorial videos
+- 🎥 Meeting recordings alongside project notes  
+- 📖 Course materials in your knowledge base
+- 🎓 Educational content from any platform
+
 ## Features
 
 - **Preset Rules** — Built-in support for Kinescope, VK Video, and Wistia (disabled by default)
@@ -160,6 +172,33 @@ Settings are stored in `chrome.storage.sync`:
   ]
 }
 ```
+
+## Releases
+
+### Creating a Release (Maintainers)
+
+This project uses a manual GitHub Actions workflow to create releases:
+
+1. Update version in `manifest.json`
+2. Commit and push the change
+3. Go to the [Actions tab](../../actions) in the GitHub repository
+4. Select **"Release"** workflow from the left sidebar
+5. Click **"Run workflow"**
+6. Optionally add release notes
+7. Click **"Run workflow"**
+
+The workflow will:
+- Read version from `manifest.json` automatically
+- Create a ZIP package excluding dev files
+- Create a GitHub Release with tag `v{version}`
+- Attach the ZIP as a downloadable asset
+
+### Installing from Releases
+
+Users can download the latest release:
+1. Go to [Releases](../../releases)
+2. Download `tana-tweaks-v{version}.zip`
+3. Extract and load unpacked in Chrome
 
 ## Contributing
 
