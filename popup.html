@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tana Tweaks</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>Tana Tweaks</h1>
+        <p class="subtitle">Customize your Tana experience</p>
+      </div>
+      <div class="theme-toggle">
+        <button class="theme-btn" data-theme="auto" title="Auto (System)">◐</button>
+        <button class="theme-btn" data-theme="light" title="Light">☀</button>
+        <button class="theme-btn" data-theme="dark" title="Dark">☾</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section-header">
+          <h3 class="section-title">Embed Rules</h3>
+          <p class="section-desc">Enable presets or add custom rules to auto-embed videos</p>
+        </div>
+        
+        <div id="rulesList" class="rules-list">
+          <!-- Rules will be rendered here -->
+        </div>
+        
+        <button id="addRuleBtn" class="btn-add">+ Add Custom Rule</button>
+        
+        <!-- Rule Form -->
+        <div id="ruleForm" class="rule-form hidden">
+          <h4 id="ruleFormTitle">Add Custom Rule</h4>
+          
+          <div class="form-group">
+            <label for="ruleName">Rule Name</label>
+            <input type="text" id="ruleName" placeholder="e.g., Loom Videos">
+          </div>
+          
+          <div class="form-group">
+            <label for="rulePattern">URL Pattern (Regex)</label>
+            <input type="text" id="rulePattern" placeholder="e.g., loom\.com/share/([a-zA-Z0-9]+)">
+            <span class="form-hint">Use capture groups () to extract IDs</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="ruleTemplate">Embed HTML Template</label>
+            <textarea id="ruleTemplate" rows="4" placeholder='<iframe src="https://www.loom.com/embed/{{match1}}" allowfullscreen></iframe>'></textarea>
+            <span class="form-hint">Use {{match1}}, {{match2}} for capture groups</span>
+          </div>
+          
+          <div class="form-buttons">
+            <button id="cancelRule" class="btn-secondary">Cancel</button>
+            <button id="saveRule" class="btn-primary">Save Rule</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="status" id="status"></div>
+      <div class="credits">
+        Developed by <a href="https://github.com/mrkhachaturov/tana-tweaks" target="_blank">Ruben Khachaturov</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="infoName">Preset Details</h3>
+        <button id="closeInfoModal" class="btn-close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="info-section">
+          <label>URL Pattern (Regex)</label>
+          <code id="infoPattern"></code>
+          <p class="info-hint">This regex matches URLs. Capture groups () extract the video ID.</p>
+        </div>
+        <div class="info-section">
+          <label>Embed Template</label>
+          <code id="infoTemplate"></code>
+          <p class="info-hint">{{match1}}, {{match2}} are replaced with captured values.</p>
+        </div>
+        <div class="info-tip">
+          <strong>💡 Tip:</strong> Use this as a reference when creating your own custom rules!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

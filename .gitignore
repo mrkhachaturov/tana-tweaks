@@ -1,0 +1,40 @@
+# Development/legacy files
+dev/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies (if added later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Cursor/AI
+.cursor/
+*.plan.md

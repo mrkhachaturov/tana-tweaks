@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Tana Tweaks",
+  "version": "1.0.0",
+  "description": "Enhance Tana.inc with customizable tweaks and embeds",
+  "author": "Ruben Khachaturov",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://app.tana.inc/*",
+    "https://tana.pub/*",
+    "https://*.tana.pub/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://app.tana.inc/*",
+        "https://tana.pub/*",
+        "https://*.tana.pub/*"
+      ],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Tana Tweaks",
+    "default_popup": "popup.html"
+  }
+}

@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate manifest.json
+        run: |
+          echo "Validating manifest.json..."
+          node -e "
+            const fs = require('fs');
+            const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+            
+            // Check required fields
+            const required = ['manifest_version', 'name', 'version'];
+            for (const field of required) {
+              if (!manifest[field]) {
+                console.error('Missing required field: ' + field);
+                process.exit(1);
+              }
+            }
+            
+            // Verify Manifest V3
+            if (manifest.manifest_version !== 3) {
+              console.error('Expected manifest_version 3, got: ' + manifest.manifest_version);
+              process.exit(1);
+            }
+            
+            console.log('manifest.json is valid');
+            console.log('  Name: ' + manifest.name);
+            console.log('  Version: ' + manifest.version);
+          "
+
+      - name: Check JavaScript syntax
+        run: |
+          echo "Checking content-script.js syntax..."
+          node --check content-script.js
+          echo "Checking background.js syntax..."
+          node --check background.js
+          echo "Checking popup.js syntax..."
+          node --check popup.js
+          echo "All JavaScript files have valid syntax"
+
+      - name: List extension files
+        run: |
+          echo "Extension structure:"
+          find . -type f \( -name "*.js" -o -name "*.json" -o -name "*.md" \) | head -20
+
