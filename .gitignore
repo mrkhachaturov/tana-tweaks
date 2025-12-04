@@ -20,6 +20,7 @@ Desktop.ini
 # Logs
 *.log
 npm-debug.log*
+tana-app.log
 
 # Dependencies (if added later)
 node_modules/
@@ -30,6 +31,11 @@ yarn.lock
 *.zip
 dist/
 build/
+
+# macOS app (users rebuild with: cd macos-app && make build)
+macos-app/launcher/Tana Tweaks.app/
+macos-app/node_modules/
+macos-app/package-lock.json
 
 # Environment
 .env

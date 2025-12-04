@@ -1,0 +1,14 @@
+{
+  "name": "tana-tweaks-macos",
+  "version": "1.0.0",
+  "description": "Tana Tweaks injector for macOS Electron app",
+  "main": "injector.js",
+  "scripts": {
+    "inject": "node injector.js",
+    "launch": "./launch.sh"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
+

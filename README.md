@@ -207,6 +207,21 @@ Users can download the latest release:
 3. Make your changes
 4. Submit a pull request
 
+## macOS Desktop App
+
+Using Tana as a desktop app? The Chrome extension won't work there, but we've got you covered.
+
+See **[macos-app/README.md](macos-app/README.md)** for instructions on enabling video embeds in the Tana Electron app.
+
+**Quick start:**
+```bash
+cd macos-app
+make install  # First time only
+make run-bg   # Launch Tana with Tweaks
+```
+
+Or double-click `macos-app/launcher/Tana Tweaks.app`.
+
 ## License
 
 MIT

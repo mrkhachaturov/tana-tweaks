@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Compiled app (rebuild with: make build)
+launcher/Tana Tweaks.app/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# PID file
+.tana-tweaks.pid
